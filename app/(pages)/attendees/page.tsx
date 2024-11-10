@@ -34,27 +34,27 @@ const Attendees = () => {
       });
   }, []);
 
-  // const exportToCSV = () => {
-  //   const headers = ["Name", "Email", "Entry Date", "Entry Time"];
+  const exportToCSV = () => {
+    const headers = ["Name", "Email", "Entry Date", "Entry Time"];
 
-  //   const rows = attendees.flatMap((attendee) =>
-  //     attendee.entries.map((entry) => {
-  //       return [attendee.name, attendee.email, entry.day, entry.time];
-  //     })
-  //   );
+    const rows = attendees.flatMap((attendee) =>
+      attendee.entries.map((entry) => {
+        return [attendee.name, attendee.email, entry.day, entry.time];
+      })
+    );
 
-  //   const csvContent = [headers, ...rows]
-  //     .map((row) => row.join(","))
-  //     .join("\n");
+    const csvContent = [headers, ...rows]
+      .map((row) => row.join(","))
+      .join("\n");
 
-  //   const blob = new Blob([csvContent], { type: "text/csv" });
-  //   const url = URL.createObjectURL(blob);
-  //   const a = document.createElement("a");
-  //   a.href = url;
-  //   a.download = "attendees_with_entries.csv";
-  //   a.click();
-  //   URL.revokeObjectURL(url);
-  // };
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "attendees_with_entries.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <div className="container mx-auto px-4 py-6">
