@@ -7,7 +7,7 @@ export const GET = async () => {
       include: {
         entries: {
           orderBy: {
-            day: "desc",
+            createdAt: "desc",
           },
         },
       },

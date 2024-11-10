@@ -56,6 +56,7 @@ export const POST = async (req: NextRequest) => {
           create: {
             day, // Already formatted as a string
             time, // Already formatted as a string
+            createdAt: now,
           },
         },
       },
