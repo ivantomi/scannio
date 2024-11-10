@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { AttendeeWithEntries } from "@/app/lib/types";
+import { AttendeeWithEntries } from "@/app/interfaces";
 
 const Scan = () => {
   const [id, setID] = useState<string>("");

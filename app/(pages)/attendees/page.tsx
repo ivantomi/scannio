@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { AttendeeWithEntries } from "@/app/lib/types";
+import { AttendeeWithEntries } from "@/app/interfaces";
 
 import {
   Table,

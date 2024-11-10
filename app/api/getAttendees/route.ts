@@ -1,5 +1,5 @@
 import prisma from "@/app/lib/prisma";
-import { AttendeeWithEntries } from "@/app/lib/types";
+import { AttendeeWithEntries } from "@/app/interfaces";
 import { NextResponse } from "next/server";
 
 export const GET = async () => {
