@@ -8,7 +8,6 @@ export const GET = async () => {
         entries: {
           orderBy: {
             day: "desc",
-            time: "desc",
           },
         },
       },
