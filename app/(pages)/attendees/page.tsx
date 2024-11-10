@@ -61,7 +61,7 @@ const Attendees = () => {
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold text-gray-700">Attendees</h1>
         <Button
-          // onClick={exportToCSV}
+          onClick={exportToCSV}
           className="bg-blue-600 text-white hover:bg-blue-700"
         >
           Export to CSV
