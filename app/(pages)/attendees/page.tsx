@@ -35,17 +35,11 @@ const Attendees = () => {
   }, []);
 
   const exportToCSV = () => {
-    const headers = ["ID", "Name", "Email", "Entry Date", "Entry Time"];
+    const headers = ["Name", "Email", "Entry Date", "Entry Time"];
 
     const rows = attendees.flatMap((attendee) =>
       attendee.entries.map((entry) => {
-        return [
-          attendee.id,
-          attendee.name,
-          attendee.email,
-          entry.day,
-          entry.time,
-        ];
+        return [attendee.name, attendee.email, entry.day, entry.time];
       })
     );
 
