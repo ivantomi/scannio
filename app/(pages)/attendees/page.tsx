@@ -99,7 +99,7 @@ const Attendees = () => {
           <TableBody>
             {attendees.map((attendee) => (
               <TableRow
-                key={attendee.id}
+                key={attendee.id.toString()}
                 className="hover:bg-gray-50 transition-colors"
               >
                 <TableCell className="px-4 py-3 border-b text-gray-700">
