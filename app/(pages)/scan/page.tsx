@@ -78,7 +78,7 @@ const Scan = () => {
                 <strong>First Name:</strong> {userData.firstName}
               </p>
               <p>
-                <strong>Last Name:</strong> {userData.firstName}
+                <strong>Last Name:</strong> {userData.lastName}
               </p>
               <p>
                 <strong>Email:</strong> {userData.email}
