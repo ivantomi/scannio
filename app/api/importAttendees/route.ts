@@ -18,7 +18,7 @@ export const POST = async (req: NextRequest) => {
     // Verify and log data to confirm structure
     console.log("Received attendees data:", attendees);
 
-    const promises = attendees.map((attendee: any) => {
+    const promises = attendees.map((attendee) => {
       if (
         !attendee.firstName ||
         !attendee.lastName ||
