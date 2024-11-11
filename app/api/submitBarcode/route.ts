@@ -5,11 +5,13 @@ export const POST = async (req: NextRequest) => {
   const body = await req.json();
   const { barcode } = body;
 
+  console.log(barcode);
+
   try {
     // Find the attendee in the database
     const attendee = await prisma.attendee.findUnique({
       where: {
-        barcode: barcode,
+        barcode: Number(barcode),
       },
       include: {
         entries: {
@@ -46,7 +48,7 @@ export const POST = async (req: NextRequest) => {
     // Ensure day and time are passed as strings
     await prisma.attendee.update({
       where: {
-        barcode: barcode,
+        barcode: Number(barcode),
       },
       data: {
         entries: {
