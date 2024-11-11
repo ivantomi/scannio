@@ -43,27 +43,49 @@ const Attendees = () => {
   };
 
   const exportToCSV = () => {
-    const headers = ["Name", "Email", "Entry Date", "Entry Time"];
+    const headers = [
+      "First Name",
+      "Last Name",
+      "Email",
+      "School",
+      "Barcode",
+      "Entry Date",
+      "Entry Time",
+    ];
 
-    const rows = attendees.flatMap((attendee) =>
-      attendee.entries.map((entry) => {
-        return [
-          attendee.firstName,
-          attendee.lastName,
-          attendee.email,
-          attendee.school,
-          attendee.barcode,
-          entry.day,
-          entry.time,
-        ];
+    const rows = attendees
+      .map((attendee) => {
+        if (attendee.entries.length > 0) {
+          return attendee.entries.map((entry) => [
+            attendee.firstName,
+            attendee.lastName,
+            attendee.email,
+            attendee.school,
+            attendee.barcode,
+            entry.day || "N/A",
+            entry.time || "N/A",
+          ]);
+        } else {
+          return [
+            [
+              attendee.firstName,
+              attendee.lastName,
+              attendee.email,
+              attendee.school,
+              attendee.barcode,
+              "N/A",
+              "N/A",
+            ],
+          ];
+        }
       })
-    );
+      .flat();
 
-    const csvContent = [headers, ...rows]
-      .map((row) => row.join(","))
-      .join("\n");
+    // Add the UTF-8 BOM to ensure Croatian letters display correctly
+    const csvContent =
+      "\uFEFF" + [headers, ...rows].map((row) => row.join(",")).join("\n");
 
-    const blob = new Blob([csvContent], { type: "text/csv" });
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
