@@ -11,19 +11,17 @@ import { Button } from "@/components/ui/button";
 import { AttendeeWithEntries } from "@/app/interfaces";
 
 const Scan = () => {
-  const [id, setID] = useState<string>("");
+  const [barcode, setBarcode] = useState<string>("");
   const [userData, setUserData] = useState<AttendeeWithEntries>();
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
-  const submitID = () => {
-    console.log("ID submitted:", id);
-
-    fetch("/api/submitID", {
+  const submitBarcode = () => {
+    fetch("/api/submitBarcode", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ id: id }),
+      body: JSON.stringify({ barcode: barcode }),
     })
       .then((res) => {
         if (res.status === 200) {
@@ -49,14 +47,14 @@ const Scan = () => {
           Enter ID
         </h2>
         <input
-          value={id}
-          onChange={(e) => setID(e.target.value)}
+          value={barcode}
+          onChange={(e) => setBarcode(e.target.value)}
           type="number"
-          placeholder="Enter the ID or use the scanner"
+          placeholder="Enter the Barcode or use the scanner"
           className="w-full px-4 py-2 text-gray-700 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
         <Button
-          onClick={submitID}
+          onClick={submitBarcode}
           className="w-full py-2 mt-4 text-lg font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
         >
           Submit
@@ -77,10 +75,19 @@ const Scan = () => {
                 <strong>ID:</strong> {userData.id}
               </p>
               <p>
-                <strong>Name:</strong> {userData.name}
+                <strong>First Name:</strong> {userData.firstName}
+              </p>
+              <p>
+                <strong>Last Name:</strong> {userData.firstName}
               </p>
               <p>
                 <strong>Email:</strong> {userData.email}
+              </p>
+              <p>
+                <strong>School:</strong> {userData.school}
+              </p>
+              <p>
+                <strong>Barcode:</strong> {userData.barcode}
               </p>
               <p>
                 <strong>Last entry:</strong>{" "}

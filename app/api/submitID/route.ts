@@ -3,13 +3,13 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
   const body = await req.json();
-  const { id } = body;
+  const { barcode } = body;
 
   try {
     // Find the attendee in the database
     const attendee = await prisma.attendee.findUnique({
       where: {
-        id: Number(id),
+        barcode: barcode,
       },
       include: {
         entries: {
@@ -24,10 +24,8 @@ export const POST = async (req: NextRequest) => {
       return NextResponse.json({ status: 200, success: false });
     }
 
-    // Get current date and time separately
     const now = new Date();
 
-    // Format date to Croatian date format
     const day = new Intl.DateTimeFormat("hr-HR", {
       day: "2-digit",
       month: "2-digit",
@@ -35,7 +33,6 @@ export const POST = async (req: NextRequest) => {
       timeZone: "Europe/Zagreb",
     }).format(now);
 
-    // Format time to Croatian time format (24-hour clock)
     const time = new Intl.DateTimeFormat("hr-HR", {
       hour: "2-digit",
       minute: "2-digit",
@@ -49,7 +46,7 @@ export const POST = async (req: NextRequest) => {
     // Ensure day and time are passed as strings
     await prisma.attendee.update({
       where: {
-        id: Number(id),
+        barcode: barcode,
       },
       data: {
         entries: {

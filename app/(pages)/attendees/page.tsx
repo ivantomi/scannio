@@ -1,7 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { AttendeeWithEntries } from "@/app/interfaces";
+import * as XLSX from "xlsx";
 
+import { AttendeeWithEntries } from "@/app/interfaces";
 import {
   Table,
   TableBody,
@@ -17,6 +18,7 @@ import { Button } from "@/components/ui/button";
 const Attendees = () => {
   const [attendees, setAttendees] = useState<AttendeeWithEntries[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [file, setFile] = useState<File | null>(null);
 
   useEffect(() => {
     setLoading(true);
@@ -34,12 +36,26 @@ const Attendees = () => {
       });
   }, []);
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0]);
+    }
+  };
+
   const exportToCSV = () => {
     const headers = ["Name", "Email", "Entry Date", "Entry Time"];
 
     const rows = attendees.flatMap((attendee) =>
       attendee.entries.map((entry) => {
-        return [attendee.name, attendee.email, entry.day, entry.time];
+        return [
+          attendee.firstName,
+          attendee.lastName,
+          attendee.email,
+          attendee.school,
+          attendee.barcode,
+          entry.day,
+          entry.time,
+        ];
       })
     );
 
@@ -56,6 +72,36 @@ const Attendees = () => {
     URL.revokeObjectURL(url);
   };
 
+  const uploadAttendees = () => {
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      const data = event.target?.result;
+      const workbook = XLSX.read(data, { type: "binary" });
+      const sheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[sheetName];
+      const parsedData = XLSX.utils.sheet_to_json(worksheet);
+
+      console.log(parsedData);
+
+      const response = await fetch("/api/importAttendees", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(parsedData),
+      });
+
+      if (response.ok) {
+        alert("Attendees imported successfully!");
+      } else {
+        console.error("Failed to import attendees");
+      }
+    };
+    reader.readAsBinaryString(file);
+  };
+
   return (
     <div className="container mx-auto px-4 py-6">
       <div className="flex justify-between items-center mb-4">
@@ -65,6 +111,13 @@ const Attendees = () => {
           className="bg-blue-600 text-white hover:bg-blue-700"
         >
           Export to CSV
+        </Button>
+        <input type="file" accept=".xlsx, .xls" onChange={handleFileChange} />
+        <Button
+          onClick={uploadAttendees}
+          className="bg-blue-600 text-white hover:bg-blue-700"
+        >
+          Upload Attendees
         </Button>
       </div>
 
@@ -83,10 +136,19 @@ const Attendees = () => {
                 ID
               </TableHead>
               <TableHead className="px-4 py-3 text-left text-gray-600 font-medium">
-                Name
+                First Name
+              </TableHead>
+              <TableHead className="px-4 py-3 text-left text-gray-600 font-medium">
+                Last Name
               </TableHead>
               <TableHead className="px-4 py-3 text-left text-gray-600 font-medium">
                 Email
+              </TableHead>
+              <TableHead className="px-4 py-3 text-left text-gray-600 font-medium">
+                School
+              </TableHead>
+              <TableHead className="px-4 py-3 text-left text-gray-600 font-medium">
+                Barcode
               </TableHead>
               <TableHead className="px-4 py-3 text-right text-gray-600 font-medium">
                 Last Entry Date
@@ -106,10 +168,19 @@ const Attendees = () => {
                   {attendee.id}
                 </TableCell>
                 <TableCell className="px-4 py-3 border-b text-gray-700">
-                  {attendee.name}
+                  {attendee.firstName}
+                </TableCell>
+                <TableCell className="px-4 py-3 border-b text-gray-700">
+                  {attendee.lastName}
                 </TableCell>
                 <TableCell className="px-4 py-3 border-b text-gray-700">
                   {attendee.email}
+                </TableCell>
+                <TableCell className="px-4 py-3 border-b text-gray-700">
+                  {attendee.school}
+                </TableCell>
+                <TableCell className="px-4 py-3 border-b text-gray-700">
+                  {attendee.barcode}
                 </TableCell>
                 <TableCell className="px-4 py-3 border-b text-gray-700 text-right">
                   {attendee.entries.length > 0
