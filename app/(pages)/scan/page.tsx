@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner"; // Assuming you have a spinner component
+import { Spinner } from "@/components/ui/spinner";
 import { AttendeeWithEntries } from "@/app/interfaces";
 
 const Scan = () => {
@@ -69,6 +69,14 @@ const Scan = () => {
       });
   };
 
+  // Handle Enter key in the input field
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // Prevent form submission
+      submitBarcode();
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-lg">
@@ -79,6 +87,7 @@ const Scan = () => {
           ref={inputRef} // Attach ref to input for focusing
           value={barcode}
           onChange={(e) => setBarcode(e.target.value)}
+          onKeyDown={handleKeyPress} // Handle Enter key press
           type="number"
           placeholder="Enter the Barcode or use the scanner"
           className="w-full px-4 py-2 text-gray-700 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
