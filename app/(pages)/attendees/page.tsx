@@ -163,30 +163,30 @@ const Attendees = () => {
           <TableCaption className="text-lg font-semibold text-white mb-4">
             List of all attendees
           </TableCaption>
-          <TableHeader className="hover:bg-gray-100 bg-gray-200">
-            <TableRow className="bg-gray-100 border-b">
-              <TableHead className="w-[100px] px-4 py-3 text-left text-gray-600 font-medium">
+          <TableHeader className="">
+            <TableRow className="bg-gray-200 border-b hover:bg-blue-100">
+              <TableHead className="w-[100px] px-4 py-3 text-left text-gray-600 font-bold">
                 ID
               </TableHead>
-              <TableHead className="px-4 py-3 text-left text-gray-600 font-medium">
+              <TableHead className="px-4 py-3 text-left text-gray-600 font-bold">
                 First Name
               </TableHead>
-              <TableHead className="px-4 py-3 text-left text-gray-600 font-medium">
+              <TableHead className="px-4 py-3 text-left text-gray-600 font-bold">
                 Last Name
               </TableHead>
-              <TableHead className="px-4 py-3 text-left text-gray-600 font-medium">
+              <TableHead className="px-4 py-3 text-left text-gray-600 font-bold">
                 Email
               </TableHead>
-              <TableHead className="px-4 py-3 text-left text-gray-600 font-medium">
+              <TableHead className="px-4 py-3 text-left text-gray-600 font-bold">
                 School
               </TableHead>
-              <TableHead className="px-4 py-3 text-left text-gray-600 font-medium">
+              <TableHead className="px-4 py-3 text-left text-gray-600 font-bold">
                 Barcode
               </TableHead>
-              <TableHead className="px-4 py-3 text-right text-gray-600 font-medium">
+              <TableHead className="px-4 py-3 text-right text-gray-600 font-bold">
                 Last Entry Date
               </TableHead>
-              <TableHead className="px-4 py-3 text-right text-gray-600 font-medium">
+              <TableHead className="px-4 py-3 text-right text-gray-600 font-bold">
                 Last Entry Time
               </TableHead>
             </TableRow>
