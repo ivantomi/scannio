@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
+import Cookies from "js-cookie";
 
 import { AttendeeWithEntries } from "@/app/interfaces";
 import {
@@ -14,14 +15,24 @@ import {
 } from "@/components/ui/table";
 import { Spinner } from "@/components/ui/spinner";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const Attendees = () => {
   const [attendees, setAttendees] = useState<AttendeeWithEntries[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [file, setFile] = useState<File | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const router = useRouter();
 
   useEffect(() => {
     setLoading(true);
+    const authCookie = Cookies.get("auth");
+
+    if (authCookie !== "authenticated") {
+      router.push("/");
+    } else {
+      setIsAuthenticated(true);
+    }
     fetch("/api/getAttendees")
       .then((res) => res.json())
       .then((data) => {

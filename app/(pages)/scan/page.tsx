@@ -1,5 +1,8 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+
 import {
   Dialog,
   DialogContent,
@@ -17,7 +20,19 @@ const Scan = () => {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [countdown, setCountdown] = useState<number>(3); // Countdown timer
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null); // Ref for input focusing
+  const router = useRouter();
+
+  useEffect(() => {
+    const authCookie = Cookies.get("auth");
+
+    if (authCookie !== "authenticated") {
+      router.push("/");
+    } else {
+      setIsAuthenticated(true);
+    }
+  }, []);
 
   useEffect(() => {
     // Focus input when dialog closes
