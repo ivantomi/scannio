@@ -93,16 +93,21 @@ const Scan = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen ">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-lg">
+        <img
+          src="/logo_ENTER-4_02.png"
+          alt="Logo"
+          className="mx-auto mb-4 w-32 h-auto"
+        />
         <h2 className="text-2xl font-bold text-center text-gray-800">
           Enter Barcode
         </h2>
         <input
-          ref={inputRef} // Attach ref to input for focusing
+          ref={inputRef}
           value={barcode}
           onChange={(e) => setBarcode(e.target.value)}
-          onKeyDown={handleKeyPress} // Handle Enter key press
+          onKeyDown={handleKeyPress}
           type="number"
           placeholder="Enter the Barcode or use the scanner"
           className="w-full px-4 py-2 text-gray-700 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -122,41 +127,48 @@ const Scan = () => {
           if (!open) inputRef.current?.focus(); // Focus input on close
         }}
       >
-        <DialogContent>
+        <DialogContent className="max-w-lg p-8 bg-white rounded-lg shadow-lg">
           <DialogHeader>
-            <DialogTitle>Attendee Details</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="text-2xl font-bold text-gray-800">
+              Attendee Details
+            </DialogTitle>
+            <DialogDescription className="text-gray-700">
               Information of the scanned ID.
             </DialogDescription>
           </DialogHeader>
           {loading ? (
             <div className="flex justify-center items-center py-4">
-              <Spinner size="large" /> {/* Show spinner while loading */}
+              <Spinner size="large" className="text-black" />
             </div>
           ) : (
             <>
               {userData ? (
-                <div className="space-y-4">
-                  <p>
-                    <strong>ID:</strong> {userData.id}
+                <div className="space-y-4 text-lg">
+                  <p className="text-gray-700">
+                    <strong className="text-black">ID:</strong> {userData.id}
                   </p>
-                  <p>
-                    <strong>First Name:</strong> {userData.firstName}
+                  <p className="text-gray-700">
+                    <strong className="text-black">First Name:</strong>{" "}
+                    {userData.firstName}
                   </p>
-                  <p>
-                    <strong>Last Name:</strong> {userData.lastName}
+                  <p className="text-gray-700">
+                    <strong className="text-black">Last Name:</strong>{" "}
+                    {userData.lastName}
                   </p>
-                  <p>
-                    <strong>Email:</strong> {userData.email}
+                  <p className="text-gray-700">
+                    <strong className="text-black">Email:</strong>{" "}
+                    {userData.email}
                   </p>
-                  <p>
-                    <strong>School:</strong> {userData.school}
+                  <p className="text-gray-700">
+                    <strong className="text-black">School:</strong>{" "}
+                    {userData.school}
                   </p>
-                  <p>
-                    <strong>Barcode:</strong> {userData.barcode}
+                  <p className="text-gray-700">
+                    <strong className="text-black">Barcode:</strong>{" "}
+                    {userData.barcode}
                   </p>
-                  <p>
-                    <strong>Last entry:</strong>{" "}
+                  <p className="text-gray-700">
+                    <strong className="text-black">Last entry:</strong>{" "}
                     {userData.entries.length > 0 ? (
                       <>
                         {userData.entries[0].day.toString()}, {""}
@@ -168,10 +180,9 @@ const Scan = () => {
                   </p>
                 </div>
               ) : (
-                <p>No user data available</p>
+                <p className="text-lg text-gray-700">No user data available</p>
               )}
-              <p className="text-gray-500 mt-4">Closing in {countdown}...</p>{" "}
-              {/* Countdown text */}
+              <p className="text-gray-500 mt-4">Closing in {countdown}...</p>
             </>
           )}
         </DialogContent>

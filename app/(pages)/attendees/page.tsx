@@ -138,7 +138,7 @@ const Attendees = () => {
   return (
     <div className="container mx-auto px-4 py-6">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold text-gray-700">Attendees</h1>
+        <h1 className="text-2xl font-bold ">Attendees</h1>
         <Button
           onClick={exportToCSV}
           className="bg-blue-600 text-white hover:bg-blue-700"
@@ -160,10 +160,10 @@ const Attendees = () => {
         </div>
       ) : (
         <Table className="min-w-full bg-white border border-gray-200 shadow-lg rounded-lg overflow-hidden">
-          <TableCaption className="text-lg font-semibold text-gray-700 mb-4">
+          <TableCaption className="text-lg font-semibold text-white mb-4">
             List of all attendees
           </TableCaption>
-          <TableHeader>
+          <TableHeader className="hover:bg-gray-100 bg-gray-200">
             <TableRow className="bg-gray-100 border-b">
               <TableHead className="w-[100px] px-4 py-3 text-left text-gray-600 font-medium">
                 ID
