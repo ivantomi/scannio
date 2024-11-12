@@ -27,7 +27,7 @@ const Scan = () => {
   useEffect(() => {
     const authCookie = Cookies.get("auth");
 
-    if (authCookie !== "authenticated") {
+    if (authCookie !== "authenticated" || isAuthenticated) {
       router.push("/");
     } else {
       setIsAuthenticated(true);
