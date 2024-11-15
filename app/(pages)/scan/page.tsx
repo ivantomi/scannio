@@ -19,7 +19,7 @@ const Scan = () => {
   const [userData, setUserData] = useState<AttendeeWithEntries | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [countdown, setCountdown] = useState<number>(3); // Countdown timer
+  const [countdown, setCountdown] = useState<number>(2); // Countdown timer
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null); // Ref for input focusing
   const router = useRouter();
@@ -44,7 +44,7 @@ const Scan = () => {
   const submitBarcode = () => {
     setLoading(true); // Show loader immediately
     setIsDialogOpen(true); // Open dialog right after button click
-    setCountdown(3); // Reset countdown
+    setCountdown(2); // Reset countdown
 
     fetch("/api/submitBarcode", {
       method: "POST",
@@ -169,14 +169,11 @@ const Scan = () => {
                   </p>
                   <p className="text-gray-700">
                     <strong className="text-black">Last entry:</strong>{" "}
-                    {userData.entries.length > 0 ? (
-                      <>
-                        {userData.entries[0].day.toString()}, {""}
-                        {userData.entries[0].time.toString()}
-                      </>
-                    ) : (
-                      "No entries found"
-                    )}
+                    {userData.entries.length > 0
+                      ? userData.entries[0].day +
+                        " - " +
+                        userData.entries[0].time
+                      : "No entries"}
                   </p>
                 </div>
               ) : (

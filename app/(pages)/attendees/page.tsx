@@ -60,39 +60,36 @@ const Attendees = () => {
       "Email",
       "School",
       "Barcode",
-      "Entry Date",
-      "Entry Time",
+      "Thursday Times",
+      "Friday Times",
+      "Saturday Times",
     ];
 
-    const rows = attendees
-      .map((attendee) => {
-        if (attendee.entries.length > 0) {
-          return attendee.entries.map((entry) => [
-            attendee.firstName,
-            attendee.lastName,
-            attendee.email,
-            attendee.school,
-            attendee.barcode,
-            entry.day || "N/A",
-            entry.time || "N/A",
-          ]);
-        } else {
-          return [
-            [
-              attendee.firstName,
-              attendee.lastName,
-              attendee.email,
-              attendee.school,
-              attendee.barcode,
-              "N/A",
-              "N/A",
-            ],
-          ];
-        }
-      })
-      .flat();
+    const rows = attendees.map((attendee) => {
+      // Collect entry times for each day
+      const thursdayTimes = (attendee.entriesGroupedByDay.THURSDAY || [])
+        .map((entry) => entry.time)
+        .join(" / ");
+      const fridayTimes = (attendee.entriesGroupedByDay.FRIDAY || [])
+        .map((entry) => entry.time)
+        .join(" / ");
+      const saturdayTimes = (attendee.entriesGroupedByDay.SATURDAY || [])
+        .map((entry) => entry.time)
+        .join(" / ");
 
-    // Add the UTF-8 BOM to ensure Croatian letters display correctly
+      return [
+        attendee.firstName,
+        attendee.lastName,
+        attendee.email,
+        attendee.school,
+        attendee.barcode,
+        thursdayTimes || "N/A",
+        fridayTimes || "N/A",
+        saturdayTimes || "N/A",
+      ];
+    });
+
+    // Add the UTF-8 BOM to ensure proper encoding for special characters
     const csvContent =
       "\uFEFF" + [headers, ...rows].map((row) => row.join(",")).join("\n");
 
@@ -138,7 +135,7 @@ const Attendees = () => {
   return (
     <div className="container mx-auto px-4 py-6">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold ">Attendees</h1>
+        <h1 className="text-2xl font-bold">Attendees</h1>
         <Button
           onClick={exportToCSV}
           className="bg-blue-600 text-white hover:bg-blue-700"
@@ -163,9 +160,9 @@ const Attendees = () => {
           <TableCaption className="text-lg font-semibold text-white mb-4">
             List of all attendees
           </TableCaption>
-          <TableHeader className="">
+          <TableHeader>
             <TableRow className="bg-gray-200 border-b hover:bg-blue-100">
-              <TableHead className="w-[100px] px-4 py-3 text-left text-gray-600 font-bold">
+              <TableHead className="px-4 py-3 text-left text-gray-600 font-bold">
                 ID
               </TableHead>
               <TableHead className="px-4 py-3 text-left text-gray-600 font-bold">
@@ -183,11 +180,14 @@ const Attendees = () => {
               <TableHead className="px-4 py-3 text-left text-gray-600 font-bold">
                 Barcode
               </TableHead>
-              <TableHead className="px-4 py-3 text-right text-gray-600 font-bold">
-                Last Entry Date
+              <TableHead className="px-4 py-3 text-center text-gray-600 font-bold">
+                Thursday
               </TableHead>
-              <TableHead className="px-4 py-3 text-right text-gray-600 font-bold">
-                Last Entry Time
+              <TableHead className="px-4 py-3 text-center text-gray-600 font-bold">
+                Friday
+              </TableHead>
+              <TableHead className="px-4 py-3 text-center text-gray-600 font-bold">
+                Saturday
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -215,15 +215,24 @@ const Attendees = () => {
                 <TableCell className="px-4 py-3 border-b text-gray-700">
                   {attendee.barcode}
                 </TableCell>
-                <TableCell className="px-4 py-3 border-b text-gray-700 text-right">
-                  {attendee.entries.length > 0
-                    ? attendee.entries[0].day.toString()
-                    : "Never"}
+                <TableCell className="px-4 py-3 border-b text-gray-700 text-center">
+                  {(attendee.entriesGroupedByDay.THURSDAY || []).map(
+                    (entry) => (
+                      <div key={entry.id}>{entry.time}</div>
+                    )
+                  )}
                 </TableCell>
-                <TableCell className="px-4 py-3 border-b text-gray-700 text-right">
-                  {attendee.entries.length > 0
-                    ? attendee.entries[0].time.toString()
-                    : "Never"}
+                <TableCell className="px-4 py-3 border-b text-gray-700 text-center">
+                  {(attendee.entriesGroupedByDay.FRIDAY || []).map((entry) => (
+                    <div key={entry.id}>{entry.time}</div>
+                  ))}
+                </TableCell>
+                <TableCell className="px-4 py-3 border-b text-gray-700 text-center">
+                  {(attendee.entriesGroupedByDay.SATURDAY || []).map(
+                    (entry) => (
+                      <div key={entry.id}>{entry.time}</div>
+                    )
+                  )}
                 </TableCell>
               </TableRow>
             ))}

@@ -13,8 +13,8 @@ const Auth = () => {
 
   const handleSubmit = () => {
     if (pin === correctPIN) {
-      Cookies.set("auth", "authenticated", { expires: 1 }); // Set cookie to expire in 1 day
-      router.push("/attendees"); // Redirect to main page after successful authentication
+      Cookies.set("auth", "authenticated", { expires: 1 });
+      router.push("/attendees");
     } else {
       setError("Incorrect PIN. Please try again.");
     }

@@ -16,7 +16,7 @@ export const POST = async (req: NextRequest) => {
       include: {
         entries: {
           orderBy: {
-            day: "desc",
+            id: "desc",
           },
         },
       },
@@ -28,12 +28,23 @@ export const POST = async (req: NextRequest) => {
 
     const now = new Date();
 
-    const day = new Intl.DateTimeFormat("hr-HR", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      timeZone: "Europe/Zagreb",
-    }).format(now);
+    // Determine the day enum based on the current day of the week
+    const dayOfWeek = now.getDay(); // Sunday is 0, Monday is 1, ..., Saturday is 6
+    let day: "THURSDAY" | "FRIDAY" | "SATURDAY";
+
+    if (dayOfWeek === 4) {
+      day = "THURSDAY";
+    } else if (dayOfWeek === 5) {
+      day = "FRIDAY";
+    } else if (dayOfWeek === 6) {
+      day = "SATURDAY";
+    } else {
+      return NextResponse.json({
+        status: 200,
+        success: false,
+        message: "Today is not a valid entry day",
+      });
+    }
 
     const time = new Intl.DateTimeFormat("hr-HR", {
       hour: "2-digit",
@@ -42,10 +53,10 @@ export const POST = async (req: NextRequest) => {
       timeZone: "Europe/Zagreb",
     }).format(now);
 
-    console.log(day); // Example output: "10.11.2024"
-    console.log(time); // Example output: "15:30:00"
+    console.log(`Day: ${day}`); // Should log "THURSDAY", "FRIDAY", or "SATURDAY" based on the current day
+    console.log(`Time: ${time}`);
 
-    // Ensure day and time are passed as strings
+    // Create a new entry with the correct day and time
     await prisma.attendee.update({
       where: {
         barcode: Number(barcode),
@@ -53,8 +64,8 @@ export const POST = async (req: NextRequest) => {
       data: {
         entries: {
           create: {
-            day, // Already formatted as a string
-            time, // Already formatted as a string
+            day,
+            time,
             createdAt: now,
           },
         },

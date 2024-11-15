@@ -27,7 +27,13 @@ model Entry {
   id         Int       @id @default(autoincrement())
   attendee   Attendee? @relation(fields: [attendeeId], references: [id])
   attendeeId Int
-  day        String
+  day        Day
   time       String    @default("00:00")
   createdAt  DateTime  @default(now())
+}
+
+enum Day {
+  THURSDAY
+  FRIDAY
+  SATURDAY
 }
