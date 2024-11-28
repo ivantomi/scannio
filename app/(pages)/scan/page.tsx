@@ -148,13 +148,10 @@ const Scan = () => {
                     <strong className="text-black">ID:</strong> {userData.id}
                   </p>
                   <p className="text-gray-700">
-                    <strong className="text-black">First Name:</strong>{" "}
-                    {userData.firstName}
+                    <strong className="text-black">Name:</strong>{" "}
+                    {userData.name}
                   </p>
-                  <p className="text-gray-700">
-                    <strong className="text-black">Last Name:</strong>{" "}
-                    {userData.lastName}
-                  </p>
+                  
                   <p className="text-gray-700">
                     <strong className="text-black">Email:</strong>{" "}
                     {userData.email}

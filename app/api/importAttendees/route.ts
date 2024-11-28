@@ -20,8 +20,7 @@ export const POST = async (req: NextRequest) => {
 
     const promises = attendees.map((attendee) => {
       if (
-        !attendee.firstName ||
-        !attendee.lastName ||
+        !attendee.name ||
         !attendee.email ||
         !attendee.school ||
         !attendee.barcode
@@ -31,8 +30,7 @@ export const POST = async (req: NextRequest) => {
 
       return prisma.attendee.create({
         data: {
-          firstName: attendee.firstName,
-          lastName: attendee.lastName,
+          name: attendee.name,
           email: attendee.email,
           school: attendee.school,
           barcode: attendee.barcode,

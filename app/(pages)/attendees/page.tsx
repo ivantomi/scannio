@@ -55,8 +55,7 @@ const Attendees = () => {
 
   const exportToCSV = () => {
     const headers = [
-      "First Name",
-      "Last Name",
+      "Name",
       "Email",
       "School",
       "Barcode",
@@ -78,8 +77,7 @@ const Attendees = () => {
         .join(" / ");
 
       return [
-        attendee.firstName,
-        attendee.lastName,
+        attendee.name,
         attendee.email,
         attendee.school,
         attendee.barcode,
@@ -166,11 +164,9 @@ const Attendees = () => {
                 ID
               </TableHead>
               <TableHead className="px-4 py-3 text-left text-gray-600 font-bold">
-                First Name
+                Name
               </TableHead>
-              <TableHead className="px-4 py-3 text-left text-gray-600 font-bold">
-                Last Name
-              </TableHead>
+              
               <TableHead className="px-4 py-3 text-left text-gray-600 font-bold">
                 Email
               </TableHead>
@@ -201,11 +197,9 @@ const Attendees = () => {
                   {attendee.id}
                 </TableCell>
                 <TableCell className="px-4 py-3 border-b text-gray-700">
-                  {attendee.firstName}
+                  {attendee.name}
                 </TableCell>
-                <TableCell className="px-4 py-3 border-b text-gray-700">
-                  {attendee.lastName}
-                </TableCell>
+           
                 <TableCell className="px-4 py-3 border-b text-gray-700">
                   {attendee.email}
                 </TableCell>
