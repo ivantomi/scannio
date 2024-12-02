@@ -89,7 +89,7 @@ const Attendees = () => {
 
     // Add the UTF-8 BOM to ensure proper encoding for special characters
     const csvContent =
-      "\uFEFF" + [headers, ...rows].map((row) => row.join(",")).join("\n");
+      "\uFEFF" + [headers, ...rows].map((row) => row.join(";")).join("\n");
 
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
