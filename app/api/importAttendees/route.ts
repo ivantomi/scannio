@@ -18,15 +18,25 @@ export const POST = async (req: NextRequest) => {
     // Verify and log data to confirm structure
     console.log("Received attendees data:", attendees);
 
-    const promises = attendees.map((attendee) => {
+    const promises = attendees.map(async (attendee) => {
       if (
         !attendee.name ||
-        !attendee.email ||
         !attendee.school ||
+        !attendee.email ||
         !attendee.barcode
       ) {
         throw new Error("Missing required attendee fields.");
       }
+
+      const checkIfExistAlready = await prisma.attendee.findFirst({
+        where: {
+          barcode: attendee.barcode,
+        }
+      })
+
+      if (checkIfExistAlready) 
+        return null;
+
 
       return prisma.attendee.create({
         data: {
