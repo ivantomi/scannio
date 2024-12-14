@@ -5,7 +5,6 @@ export const POST = async (req: NextRequest) => {
   try {
     const attendees = await req.json();
 
-    // Check if attendees is received correctly and is an array
     if (!Array.isArray(attendees) || attendees.length === 0) {
       console.error("Received data is not an array or is empty");
       return NextResponse.json({
@@ -15,7 +14,6 @@ export const POST = async (req: NextRequest) => {
       });
     }
 
-    // Verify and log data to confirm structure
     console.log("Received attendees data:", attendees);
 
     const promises = attendees.map(async (attendee) => {

@@ -13,7 +13,6 @@ export const GET = async () => {
       },
     });
 
-    // Transform entries to group them by day
     const groupedAttendees = attendees.map((attendee) => {
       const groupedEntries = attendee.entries.reduce((acc, entry) => {
         if (!acc[entry.day]) {

@@ -65,7 +65,6 @@ const Attendees = () => {
     ];
 
     const rows = attendees.map((attendee) => {
-      // Collect entry times for each day
       const thursdayTimes = (attendee.entriesGroupedByDay.THURSDAY || [])
         .map((entry) => entry.time)
         .join(" / ");
@@ -87,7 +86,6 @@ const Attendees = () => {
       ];
     });
 
-    // Add the UTF-8 BOM to ensure proper encoding for special characters
     const csvContent =
       "\uFEFF" + [headers, ...rows].map((row) => row.join(";")).join("\n");
 

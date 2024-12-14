@@ -19,9 +19,9 @@ const Scan = () => {
   const [userData, setUserData] = useState<AttendeeWithEntries | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [countdown, setCountdown] = useState<number>(2); // Countdown timer
+  const [countdown, setCountdown] = useState<number>(2);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const inputRef = useRef<HTMLInputElement>(null); // Ref for input focusing
+  const inputRef = useRef<HTMLInputElement>(null); 
   const router = useRouter();
 
   useEffect(() => {
@@ -35,16 +35,15 @@ const Scan = () => {
   }, []);
 
   useEffect(() => {
-    // Focus input when dialog closes
     if (!isDialogOpen && inputRef.current) {
       inputRef.current.focus();
     }
   }, [isDialogOpen]);
 
   const submitBarcode = () => {
-    setLoading(true); // Show loader immediately
-    setIsDialogOpen(true); // Open dialog right after button click
-    setCountdown(2); // Reset countdown
+    setLoading(true); 
+    setIsDialogOpen(true); 
+    setCountdown(2); 
 
     fetch("/api/submitBarcode", {
       method: "POST",
@@ -68,15 +67,14 @@ const Scan = () => {
         alert("Failed: User not found");
       })
       .finally(() => {
-        setLoading(false); // Stop loading after response
+        setLoading(false);
 
-        // Start countdown
         const countdownInterval = setInterval(() => {
           setCountdown((prevCountdown) => {
             if (prevCountdown === 1) {
-              clearInterval(countdownInterval); // Clear interval at end
-              setIsDialogOpen(false); // Close dialog after countdown
-              setBarcode(""); // Clear barcode input
+              clearInterval(countdownInterval); 
+              setIsDialogOpen(false); 
+              setBarcode(""); 
             }
             return prevCountdown - 1;
           });
@@ -84,10 +82,9 @@ const Scan = () => {
       });
   };
 
-  // Handle Enter key in the input field
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      e.preventDefault(); // Prevent form submission
+      e.preventDefault();
       submitBarcode();
     }
   };
@@ -124,7 +121,7 @@ const Scan = () => {
         open={isDialogOpen}
         onOpenChange={(open) => {
           setIsDialogOpen(open);
-          if (!open) inputRef.current?.focus(); // Focus input on close
+          if (!open) inputRef.current?.focus(); 
         }}
       >
         <DialogContent className="max-w-lg p-8 bg-white rounded-lg shadow-lg">

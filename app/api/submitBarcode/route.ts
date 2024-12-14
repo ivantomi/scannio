@@ -8,7 +8,6 @@ export const POST = async (req: NextRequest) => {
   console.log(barcode);
 
   try {
-    // Find the attendee in the database
     const attendee = await prisma.attendee.findUnique({
       where: {
         barcode: Number(barcode),
@@ -28,8 +27,7 @@ export const POST = async (req: NextRequest) => {
 
     const now = new Date();
 
-    // Determine the day enum based on the current day of the week
-    const dayOfWeek = now.getDay(); // Sunday is 0, Monday is 1, ..., Saturday is 6
+    const dayOfWeek = now.getDay(); 
     let day: "THURSDAY" | "FRIDAY" | "SATURDAY";
 
     if (dayOfWeek === 4) {
@@ -53,10 +51,9 @@ export const POST = async (req: NextRequest) => {
       timeZone: "Europe/Zagreb",
     }).format(now);
 
-    console.log(`Day: ${day}`); // Should log "THURSDAY", "FRIDAY", or "SATURDAY" based on the current day
+    console.log(`Day: ${day}`);
     console.log(`Time: ${time}`);
 
-    // Create a new entry with the correct day and time
     await prisma.attendee.update({
       where: {
         barcode: Number(barcode),
